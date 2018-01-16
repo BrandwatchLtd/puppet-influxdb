@@ -1,6 +1,6 @@
 class influxdb::install {
   $ensure = $::ensure
-  $version = ::version
+  $version = $::version
 
   Exec {
     path => '/usr/bin:/bin',
