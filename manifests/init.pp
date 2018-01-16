@@ -1,6 +1,9 @@
 # class dbinflux
 class influxdb(
   $version = '1.3.4',
+  $ensure = 'present',
+  $manage_install = true,
+  $manage_repos = true,
   $config  = {},
   $config_template = 'influxdb/influxdb.conf.erb',
   $auth_enabled = false,
