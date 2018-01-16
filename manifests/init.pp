@@ -1,6 +1,6 @@
 # class dbinflux
 class influxdb(
-  $version = '1.3.4',
+  $version = '1.4.2',
   $ensure = 'present',
   $manage_install = true,
   $manage_repos = true,
