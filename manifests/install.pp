@@ -1,7 +1,7 @@
-class influxdb::install {
-  $ensure = $install::ensure
+class influxdb::install( 
+  $ensure = $install::ensure,
   $version, 
-
+){
   Exec {
     path => '/usr/bin:/bin',
   }
