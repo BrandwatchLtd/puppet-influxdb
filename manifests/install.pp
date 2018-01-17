@@ -1,5 +1,5 @@
 class influxdb::install( 
-  $ensure,
+  $ensure = $install::ensure,
   $version, 
 ){
   Exec {
