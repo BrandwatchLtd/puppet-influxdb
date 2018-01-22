@@ -434,8 +434,38 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 ### Controls the listeners for InfluxDB line protocol data via UDP.
 ###
 
+<% if @udp and ! @udp.empty? -%>
+<% if @udp.is_a?(Hash) -%>
 [[udp]]
-  # enabled = false
+<% @udp.keys.sort.each do |key|
+   val =  @udp[key]
+   -%>
+<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
+  <%=key %> = <%=val %>
+<% else -%>
+  <%=key %> = "<%=val %>"
+<% end -%>
+<% end -%>
+<% elsif @udp.is_a?(Array) -%>
+<% @udp.each do |option| -%>
+[[udp]]
+<% option.keys.sort.each do |key|
+ val = option[key]
+  -%>
+<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
+  <%=key %> = <%=val %>
+<% else -%>
+  <%=key %> = "<%=val %>"
+<% end -%>
+<% end -%>
+<% end -%>
+<% end -%>
+<% else -%>
+[[udp]]
+  enabled = false
+<% end -%>
+
+# enabled = false
   # bind-address = ":8089"
   # database = "udp"
   # retention-policy = ""
