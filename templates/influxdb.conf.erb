@@ -434,11 +434,11 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 ### Controls the listeners for InfluxDB line protocol data via UDP.
 ###
 
-<% if @udp and ! @udp.empty? -%>
-<% if @udp.is_a?(Hash) -%>
+<% if @final_config['udp'] and ! @final_config['udp'].empty? -%>
+<% if @final_config['udp'].is_a?(Hash) -%>
 [[udp]]
-<% @udp.keys.sort.each do |key|
-   val =  @udp[key]
+<% @final_config['udp'].keys.sort.each do |key|
+   val =  @final_config['udp'][key]
    -%>
 <% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
   <%=key %> = <%=val %>
@@ -446,8 +446,8 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
   <%=key %> = "<%=val %>"
 <% end -%>
 <% end -%>
-<% elsif @udp.is_a?(Array) -%>
-<% @udp.each do |option| -%>
+<% elsif @final_config['udp'].is_a?(Array) -%>
+<% @final_config['udp'].each do |option| -%>
 [[udp]]
 <% option.keys.sort.each do |key|
  val = option[key]
