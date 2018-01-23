@@ -474,9 +474,10 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
   # interval for how often continuous queries will be checked if they need to run
   # run-interval = "1s"
 
-<% if @final_config -%>
 [test]
 <% @final_config.sort.each.do |key, value| -%>
   <%= key %> = "<%= value %>"
 <% end -%>
-<% end -%>
+
+[test2]
+tempp <%= @final_config %>
