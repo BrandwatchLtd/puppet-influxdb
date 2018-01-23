@@ -434,36 +434,7 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 ### Controls the listeners for InfluxDB line protocol data via UDP.
 ###
 
-<% if @final_config['udp'] and ! @final_config['udp'].empty? -%>
-<% if @final_config['udp'].is_a?(Hash) -%>
 [[udp]]
-<% @final_config['udp'].keys.sort.each do |key|
-   val =  @final_config['udp'][key]
-   -%>
-<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
-  <%=key %> = <%=val %>
-<% else -%>
-  <%=key %> = "<%=val %>"
-<% end -%>
-<% end -%>
-<% elsif @final_config['udp'].is_a?(Array) -%>
-<% @final_config['udp'].each do |option| -%>
-[[udp]]
-<% option.keys.sort.each do |key|
-  val = option[key]
-  -%>
-<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
-  <%=key %> = <%=val %>
-<% else -%>
-  <%=key %> = "<%=val %>"
-<% end -%>
-<% end -%>
-<% end -%>
-<% end -%>
-<% else -%>
-[[udp]]
-  enabled = false
-<% end -%>
 
 # enabled = false
   # bind-address = ":8089"
@@ -492,36 +463,7 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 ### Controls how continuous queries are run within InfluxDB.
 ###
 
-<% if @final_config['continuous_queries'] and ! @final_config['continuous_queries'].empty? -%>
-<% if @final_config['continuous_queries'].is_a?(Hash) -%>
 [continuous_queries]
-<% @final_config['continuous_queries'].keys.sort.each do |key|
-   val =  @final_config['continuous_queries'][key]
-   -%>
-<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
-  <%=key %> = <%=val %>
-<% else -%>
-  <%=key %> = "<%=val %>"
-<% end -%>
-<% end -%>
-<% elsif @final_config['continuous_queries'].is_a?(Array) -%>
-<% @final_config['continuous_queries'].each do |option| -%>
-[continuous_queries]
-<% option.keys.sort.each do |key|
- val = option[key]
-  -%>
-<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
-  <%=key %> = <%=val %>
-<% else -%>
-  <%=key %> = "<%=val %>"
-<% end -%>
-<% end -%>
-<% end -%>
-<% end -%>
-<% else -%>
-[continuous_queries]
-  enabled = false
-<% end -%>
 
   # Determines whether the continuous query service is enabled.
   # enabled = true
@@ -531,3 +473,10 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 
   # interval for how often continuous queries will be checked if they need to run
   # run-interval = "1s"
+
+<% if @final_config -%>
+[test]
+<% @final_config.sort.each.do |key, value| -%>
+  <%= key %> = "<%= value %>"
+<% end -%>
+<% end -%>
