@@ -480,4 +480,4 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 <% end -%>
 
 [test2]
-tempp <%= @final_config %>
+  tempp = "<%= @final_config['data']['wal-fsync-delay'] %>"
