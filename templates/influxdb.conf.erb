@@ -450,7 +450,7 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 <% @final_config['udp'].each do |option| -%>
 [[udp]]
 <% option.keys.sort.each do |key|
- val = option[key]
+  val = option[key]
   -%>
 <% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
   <%=key %> = <%=val %>
@@ -492,7 +492,37 @@ bind-address = "<%= @final_config['global']['bind-adress'] %>"
 ### Controls how continuous queries are run within InfluxDB.
 ###
 
+<% if @final_config['continuous_queries'] and ! @final_config['continuous_queries'].empty? -%>
+<% if @final_config['continuous_queries'].is_a?(Hash) -%>
 [continuous_queries]
+<% @final_config['continuous_queries'].keys.sort.each do |key|
+   val =  @final_config['continuous_queries'][key]
+   -%>
+<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
+  <%=key %> = <%=val %>
+<% else -%>
+  <%=key %> = "<%=val %>"
+<% end -%>
+<% end -%>
+<% elsif @final_config['continuous_queries'].is_a?(Array) -%>
+<% @final_config['continuous_queries'].each do |option| -%>
+[continuous_queries]
+<% option.keys.sort.each do |key|
+ val = option[key]
+  -%>
+<% if val =~ /^(true|false|[0-9]+)$/ or val.is_a?(TrueClass) or val.is_a?(FalseClass) or val.is_a?(Fixnum) -%>
+  <%=key %> = <%=val %>
+<% else -%>
+  <%=key %> = "<%=val %>"
+<% end -%>
+<% end -%>
+<% end -%>
+<% end -%>
+<% else -%>
+[continuous_queries]
+  enabled = false
+<% end -%>
+
   # Determines whether the continuous query service is enabled.
   # enabled = true
 
