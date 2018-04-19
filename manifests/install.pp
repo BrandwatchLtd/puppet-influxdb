@@ -1,11 +1,25 @@
-# class to install influxdb
-class influxdb::install(
-  $version,
+class influxdb::install( 
+  $ensure = $install::ensure,
+  $version, 
 ){
-  package { 'influxdb_rpm':
-    ensure   => installed,
-    name     => 'influxdb',
-    provider => 'rpm',
-    source   => "https://dl.influxdata.com/influxdb/releases/influxdb-${version}.x86_64.rpm"
+  Exec {
+    path => '/usr/bin:/bin',
+  }
+
+  if $influxdb::manage_repos {
+    class { 'influxdb::repo': }
+  }
+
+  if $influxdb::manage_install {
+    if $ensure == 'absent' {
+      $_ensure = $ensure
+    } else {
+        $_ensure = $version
+    }
+
+    package { 'influxdb':
+      ensure => $_ensure,
+      tag    => 'influxdb',
+    }
   }
 }
